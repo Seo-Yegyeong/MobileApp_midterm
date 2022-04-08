@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.3
   shrine_images: ^2.0.1
   get: ^4.6.1
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:

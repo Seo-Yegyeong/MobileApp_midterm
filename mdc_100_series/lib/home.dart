@@ -13,6 +13,8 @@
 // limitations under the License.
 
 import 'package:Shrine/sign_up.dart';
+import 'package:Shrine/util/size.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -57,7 +59,7 @@ class buildScaffold extends StatefulWidget {
 
 class _buildScaffoldState extends State<buildScaffold> {
   // static const String _url = 'https://www.handong.edu/';
-  // final isSelected = <bool>[false, false];
+  final isSelected = <bool>[false, false];
   //
   // void _launchURL() async {
   //   if(!await launch(_url)) throw 'Could not launch $_url';
@@ -84,11 +86,57 @@ class _buildScaffoldState extends State<buildScaffold> {
           ),
         ],
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: const EdgeInsets.all(16.0),
-        childAspectRatio: 8.0 / 9.0,
-        children: _buildGridCards(context),
+      body: ListView(
+        children: [
+          SizedBox(height: 10,),
+          SizedBox(
+            height: getScreenHeight(context)*0.05,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ToggleButtons(
+                            color: Colors.black.withOpacity(0.60),
+                            selectedColor: Color(0xFF6200EE),
+                            selectedBorderColor: Color(0xFF6200EE),
+                            fillColor: Color(0xFF6200EE).withOpacity(0.08),
+                            splashColor: Color(0xFF6200EE).withOpacity(0.12),
+                            hoverColor: Color(0xFF6200EE).withOpacity(0.04),
+                            borderRadius: BorderRadius.circular(4.0),
+                            isSelected: isSelected,
+                            onPressed: (index) {
+                              // Respond to button selection
+                              setState(() {
+                                isSelected[index] = !isSelected[index];
+                              });
+                            },
+                            children: [
+                              //Icon(isSelected[0]? Icons.list : Icons.list),
+                              // Icon(isSelected[1]? Icons.grid_view : Icons.grid_view),
+                              Icon(Icons.list),
+                              Icon(Icons.grid_view),
+
+                            ],
+                          ),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(
+            height: getScreenHeight(context)*0.8,
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return GridView.count(
+                  crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+                  padding: const EdgeInsets.all(16.0),
+                  childAspectRatio: 8.0 / 9.0,
+                  children: _buildGridCards(context),
+                );
+              },
+            ),
+          ),
+        ],
       ),
 
       //Column(
@@ -98,29 +146,7 @@ class _buildScaffoldState extends State<buildScaffold> {
           //   child: Row(
           //     mainAxisAlignment: MainAxisAlignment.end,
           //     children: [
-          //       ToggleButtons(
-          //         color: Colors.black.withOpacity(0.60),
-          //         selectedColor: Color(0xFF6200EE),
-          //         selectedBorderColor: Color(0xFF6200EE),
-          //         fillColor: Color(0xFF6200EE).withOpacity(0.08),
-          //         splashColor: Color(0xFF6200EE).withOpacity(0.12),
-          //         hoverColor: Color(0xFF6200EE).withOpacity(0.04),
-          //         borderRadius: BorderRadius.circular(4.0),
-          //         isSelected: isSelected,
-          //         onPressed: (index) {
-          //           // Respond to button selection
-          //           setState(() {
-          //             isSelected[index] = !isSelected[indviex];
-          //           });
-          //         },
-          //         children: [
-          //           // Icon(isSelected[0]? Icons.list : Icons.list),
-          //           // Icon(isSelected[1]? Icons.grid_view : Icons.grid_view),
-          //           Icon(Icons.list),
-          //           Icon(Icons.grid_view),
           //
-          //         ],
-          //       ),
           //     ],
           //   ),
           // ),

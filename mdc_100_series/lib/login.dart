@@ -13,6 +13,9 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:shrine/sign_up.dart';
+
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -23,6 +26,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   // TODO: Add text editing controllers (101)
+  final _usernameTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +49,88 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Wrap Password with AccentColorOverride (103)
             // TODO: Add TextField widgets (101)
             // TODO: Add button bar (101)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TextField(
+                controller: _usernameTextController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFEFEFEF),
+                  hintText: "Username",
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  border: UnderlineInputBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5)),
+                  ),
+                ),
+                obscureText: true,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TextField(
+                controller: _passwordTextController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFEFEFEF),
+                  hintText: "password",
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+                  border: UnderlineInputBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5)),
+                  ),
+                ),
+                obscureText: true,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ElevatedButton(
+                      onPressed: () {
+                        _usernameTextController.clear();
+                        _passwordTextController.clear();
+                      },
+                      child: Text(
+                        "CANCEL",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      style: ElevatedButton.styleFrom(primary: Colors.white, elevation: 0.0)),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
+                    },
+                    child: Text(
+                      "SIGN UP",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: Colors.white, elevation: 0.0),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    },
+                    child: Text(
+                      "NEXT",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: Color(0xFFD1D1D1)),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

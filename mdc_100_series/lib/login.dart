@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextField(
                 controller: _usernameTextController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Color(0xFFEFEFEF),
                   hintText: "Username",
@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextField(
                 controller: _passwordTextController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   filled: true,
                   fillColor: Color(0xFFEFEFEF),
                   hintText: "password",
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         _usernameTextController.clear();
                         _passwordTextController.clear();
                       },
-                      child: Text(
+                      child: const Text(
                         "CANCEL",
                         style: TextStyle(color: Colors.black),
                       ),
@@ -106,10 +106,10 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                        MaterialPageRoute(builder: (context) => const SignUpPage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "SIGN UP",
                       style: TextStyle(color: Colors.black),
                     ),
@@ -119,14 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(builder: (context) => const HomePage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       "NEXT",
                       style: TextStyle(color: Colors.black),
                     ),
-                    style: ElevatedButton.styleFrom(primary: Color(0xFFD1D1D1)),
+                    style: ElevatedButton.styleFrom(primary: const Color(0xFFD1D1D1)),
                   ),
                 ],
               ),

@@ -13,8 +13,6 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import '../model/product.dart';
 
 class ProductCard extends StatelessWidget {
@@ -30,8 +28,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        decimalDigits: 0, locale: Localizations.localeOf(context).toString());
+    // final NumberFormat formatter = NumberFormat.simpleCurrency(
+    //     decimalDigits: 0, locale: Localizations.localeOf(context).toString());
     final ThemeData theme = Theme.of(context);
 
     final imageWidget = Image.asset(
@@ -63,10 +61,10 @@ class ProductCard extends StatelessWidget {
                 maxLines: 1,
               ),
               const SizedBox(height: 4.0),
-              Text(
-                formatter.format(product.price),
-                style: theme.textTheme.subtitle2,
-              ),
+              // Text(
+              //   formatter.format(product.price),
+              //   style: theme.textTheme.subtitle2,
+              // ),
             ],
           ),
         ),

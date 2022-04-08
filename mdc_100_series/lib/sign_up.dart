@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-
 import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -37,14 +33,14 @@ Widget _bodyWidget(BuildContext context){
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 70,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: TextFormField(
                   controller: _usernameTextController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     fillColor: Color(0xFFEFEFEF),
                     hintText: "Username",
@@ -74,8 +70,9 @@ Widget _bodyWidget(BuildContext context){
                       //                     .hasMatch(value))
                       return 'Username is invalid';
                     }
-                    else
+                    else {
                       return null;
+                    }
                   },
                 ),
               ),
@@ -83,7 +80,7 @@ Widget _bodyWidget(BuildContext context){
             padding: const EdgeInsets.only(bottom: 16.0),
             child: TextFormField(
               controller: _passwordTextController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Color(0xFFEFEFEF),
                 hintText: "Password",
@@ -100,8 +97,9 @@ Widget _bodyWidget(BuildContext context){
                 if(value!.trim().isEmpty){
                   return "비밀번호를 입력해주세요!";
                 }
-                else
+                else {
                   return null;
+                }
               },
             ),
           ),
@@ -109,7 +107,7 @@ Widget _bodyWidget(BuildContext context){
             padding: const EdgeInsets.only(bottom: 16.0),
             child: TextFormField(
               controller: _confirmTextController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 filled: true,
                 fillColor: Color(0xFFEFEFEF),
                 hintText: "Confirm Password",
@@ -132,8 +130,9 @@ Widget _bodyWidget(BuildContext context){
                 // if(_passwordTextController.value != _confirmTextController.value){
                 //   return "Validation Message: Confirm Password doesnʼt match Password";
                 // }
-                else
+                else {
                   return null;
+                }
               },
             ),
           ),
@@ -141,7 +140,7 @@ Widget _bodyWidget(BuildContext context){
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: TextFormField(
                   controller: _emailTextController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     filled: true,
                     fillColor: Color(0xFFEFEFEF),
                     hintText: "Email Address",
@@ -166,8 +165,9 @@ Widget _bodyWidget(BuildContext context){
                         .hasMatch(value)){
                       return '잘못된 이메일 형식입니다.';
                     }
-                    else
+                    else {
                       return null;
+                    }
                   },
                 ),
               ),
@@ -184,17 +184,17 @@ Widget _bodyWidget(BuildContext context){
                       if(_formKey.currentState!.validate()){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => LoginPage()),
+                          MaterialPageRoute(builder: (context) => const LoginPage()),
                         );
                       }
                     },
-                    child: Text(
+                    child: const Text(
                       "SIGN UP",
                       style: TextStyle(color: Colors.black),
                     ),
-                    style: ElevatedButton.styleFrom(primary: Color(0xFFD1D1D1)),
+                    style: ElevatedButton.styleFrom(primary: const Color(0xFFD1D1D1)),
                   ),
-                  SizedBox( width: 20,),
+                  const SizedBox( width: 20,),
                 ],
               ),
             ],

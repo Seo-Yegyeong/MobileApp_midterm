@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/detail.dart';
 import 'package:Shrine/sign_up.dart';
 import 'package:Shrine/util/size.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'login.dart';
 import 'model/products_repository.dart';
 import 'model/product.dart';
@@ -26,29 +23,30 @@ import 'model/product.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
-    return MaterialApp(
-      title: 'Named Routes Demo',
-      // Start the app with the "/" named route. In this case, the app starts
-      // on the FirstScreen widget.
-      initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => buildScaffold(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/home': (context) => buildScaffold(),
-        '/search': (context) => buildScaffold(),
-        '/favorite': (context) => buildScaffold(),
-        '/mypage': (context) => SignUpPage(),
-        '/logout': (context) => const LoginPage(),
-      },
+    return GestureDetector(
+      //onTap: Focus.of(context),
+      child: MaterialApp(
+        title: 'Named Routes Demo',
+        // Start the app with the "/" named route. In this case, the app starts
+        // on the FirstScreen widget.
+        initialRoute: '/',
+        routes: {
+          // When navigating to the "/" route, build the FirstScreen widget.
+          '/': (context) => const buildScaffold(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          '/home': (context) => const buildScaffold(),
+          '/search': (context) => const buildScaffold(),
+          '/favorite': (context) => const buildScaffold(),
+          '/mypage': (context) => const SignUpPage(),
+          '/logout': (context) => const LoginPage(),
+          '/detail': (context) => const DetailPage(),
+        },
+      ),
     );
   }
 }
-
 
 class buildScaffold extends StatefulWidget {
   const buildScaffold({Key? key}) : super(key: key);
@@ -59,7 +57,7 @@ class buildScaffold extends StatefulWidget {
 
 class _buildScaffoldState extends State<buildScaffold> {
   // static const String _url = 'https://www.handong.edu/';
-  final isSelected = <bool>[false, false];
+  final isSelected = <bool>[true, false];
   //
   // void _launchURL() async {
   //   if(!await launch(_url)) throw 'Could not launch $_url';
@@ -68,101 +66,79 @@ class _buildScaffoldState extends State<buildScaffold> {
   Widget build(context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SHRINE'),
+        title: Center(child: const Text('         Main')),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(
-              Icons.search,
-              semanticLabel: 'search',
-            ),
-            onPressed: (){}
-          ),
+              icon: const Icon(
+                Icons.search,
+                semanticLabel: 'search',
+              ),
+              onPressed: () {}),
           IconButton(
-            icon: const Icon(
-              Icons.language,
-              semanticLabel: 'language',
-            ),
-            onPressed: (){}//_launchURL,
-          ),
+              icon: const Icon(
+                Icons.language,
+                semanticLabel: 'language',
+              ),
+              onPressed: () {} //_launchURL,
+              ),
         ],
       ),
       body: ListView(
         children: [
-          SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           SizedBox(
-            height: getScreenHeight(context)*0.05,
+            height: getScreenHeight(context) * 0.05,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ToggleButtons(
-                            color: Colors.black.withOpacity(0.60),
-                            selectedColor: Color(0xFF6200EE),
-                            selectedBorderColor: Color(0xFF6200EE),
-                            fillColor: Color(0xFF6200EE).withOpacity(0.08),
-                            splashColor: Color(0xFF6200EE).withOpacity(0.12),
-                            hoverColor: Color(0xFF6200EE).withOpacity(0.04),
-                            borderRadius: BorderRadius.circular(4.0),
-                            isSelected: isSelected,
-                            onPressed: (index) {
-                              // Respond to button selection
-                              setState(() {
-                                isSelected[index] = !isSelected[index];
-                              });
-                            },
-                            children: [
-                              //Icon(isSelected[0]? Icons.list : Icons.list),
-                              // Icon(isSelected[1]? Icons.grid_view : Icons.grid_view),
-                              Icon(Icons.list),
-                              Icon(Icons.grid_view),
-
-                            ],
-                          ),
+                    color: Colors.black.withOpacity(0.60),
+                    selectedColor: const Color(0xFF6200EE),
+                    selectedBorderColor: const Color(0xFF6200EE),
+                    fillColor: const Color(0xFF6200EE).withOpacity(0.08),
+                    splashColor: const Color(0xFF6200EE).withOpacity(0.12),
+                    hoverColor: const Color(0xFF6200EE).withOpacity(0.04),
+                    borderRadius: BorderRadius.circular(4.0),
+                    isSelected: isSelected,
+                    onPressed: (index) {
+                      // Respond to button selection
+                      setState(() {
+                        isSelected[0] = !isSelected[0];
+                        isSelected[1] = !isSelected[1];
+                      });
+                    },
+                    children: const [
+                      Icon(Icons.list),
+                      Icon(Icons.grid_view),
+                    ],
+                  ),
                 ],
               ),
             ),
           ),
           SizedBox(
-            height: getScreenHeight(context)*0.8,
-            child: OrientationBuilder(
-              builder: (context, orientation) {
-                return GridView.count(
-                  crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-                  padding: const EdgeInsets.all(16.0),
-                  childAspectRatio: 8.0 / 9.0,
-                  children: _buildGridCards(context),
-                );
-              },
-            ),
+            height: getScreenHeight(context) * 0.8,
+            child: isSelected[0]
+                ? _buildListView(context)
+                : OrientationBuilder(
+                    builder: (context, orientation) {
+                      return GridView.count(
+                        crossAxisCount:
+                            orientation == Orientation.portrait ? 2 : 3,
+                        padding: const EdgeInsets.all(16.0),
+                        childAspectRatio: 8.0 / 9.0,
+                        children: _buildGridCards(context),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
-
-      //Column(
-        //children: [
-          // Container(
-          //   height: 80,
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.end,
-          //     children: [
-          //
-          //     ],
-          //   ),
-          // ),
-          // OrientationBuilder(
-          //   builder: (context, orientation) {
-          //     return GridView.count(
-          //       crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-          //       padding: const EdgeInsets.all(16.0),
-          //       childAspectRatio: 8.0 / 9.0,
-          //       children: _buildGridCards(context),
-          //     );
-          //   },
-          // ),
-       // ],
-      //),
-      resizeToAvoidBottomInset: false,
+      //resizeToAvoidBottomInset: false,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -171,13 +147,15 @@ class _buildScaffoldState extends State<buildScaffold> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Pages",
-                    style: TextStyle(fontSize: 25, color: Colors.white),),
+                children: const [
+                  Text(
+                    "Pages",
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
                 ],
               ),
-              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 35),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 35),
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
             ),
@@ -194,8 +172,13 @@ class _buildScaffoldState extends State<buildScaffold> {
                       Navigator.pushNamed(context, '/home');
                     },
                   ),
-                  SizedBox(width: 20,),
-                  Text("Home", style: TextStyle(color: Colors.black54),),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Home",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
               onTap: () {
@@ -215,8 +198,13 @@ class _buildScaffoldState extends State<buildScaffold> {
                       Navigator.pushNamed(context, '/search');
                     },
                   ),
-                  SizedBox(width: 20,),
-                  Text("Search", style: TextStyle(color: Colors.black54),),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Search",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
               onTap: () {
@@ -236,9 +224,13 @@ class _buildScaffoldState extends State<buildScaffold> {
                       Navigator.pushNamed(context, '/favorite');
                     },
                   ),
-                  SizedBox(width: 20,),
-                  Text(
-                    "Favorite Hotel", style: TextStyle(color: Colors.black54),),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Favorite Hotel",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
               onTap: () {
@@ -258,8 +250,13 @@ class _buildScaffoldState extends State<buildScaffold> {
                       Navigator.pushNamed(context, '/mypage');
                     },
                   ),
-                  SizedBox(width: 20,),
-                  Text("My Page", style: TextStyle(color: Colors.black54),),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "My Page",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
               onTap: () {
@@ -279,8 +276,13 @@ class _buildScaffoldState extends State<buildScaffold> {
                       Navigator.pushNamed(context, '/logout');
                     },
                   ),
-                  SizedBox(width: 20,),
-                  Text("Log Out", style: TextStyle(color: Colors.black54),),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  const Text(
+                    "Log Out",
+                    style: TextStyle(color: Colors.black54),
+                  ),
                 ],
               ),
               onTap: () {
@@ -293,23 +295,100 @@ class _buildScaffoldState extends State<buildScaffold> {
     );
   }
 
+  ListView _buildListView(context) {
+    List<Product> products = ProductsRepository.loadProducts();
+    //Category.all);
+
+    if (products.isEmpty) {
+      //return const products;
+    }
+
+    // final ThemeData theme = Theme.of(context);
+    // final NumberFormat formatter = NumberFormat.simpleCurrency(
+    //     locale: Localizations.localeOf(context).toString());
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+            margin: const EdgeInsets.fromLTRB(16, 16, 16, 5),
+            padding: const EdgeInsets.fromLTRB(16, 16, 5, 16),
+            height: getScreenHeight(context) * 0.18,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.black12,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                AspectRatio(
+                  aspectRatio: 10 / 10,
+                  child: Image.asset(
+                    products[index].assetName,
+                    package: products[index].assetPackage,
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: getScreenWidth(context)*0.45,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      StarWidget(reputation_count: products[index].requtation),
+                      Text(
+                        products[index].name,
+                        style:
+                            const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                      ),
+                      const SizedBox(height: 6,),
+                      Expanded(child: Text(products[index].location))
+                    ],
+                  ),
+                ),
+                Container(
+                  width: getScreenWidth(context)*0.11,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        child: Text("more", style: TextStyle(
+                        color: Colors.lightBlue,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      onPressed: (){
+                        Navigator.pushNamed(context, '/detail');
+                      },
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+        );
+      },
+    );
+  }
+
   List<Card> _buildGridCards(context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
+    List<Product> products = ProductsRepository.loadProducts();
+    //Category.all);
 
     if (products.isEmpty) {
       return const <Card>[];
     }
 
     final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        locale: Localizations.localeOf(context).toString());
+    // final NumberFormat formatter = NumberFormat.simpleCurrency(
+    //     locale: Localizations.localeOf(context).toString());
 
     return products.map((product) {
       return Card(
         clipBehavior: Clip.antiAlias,
-        // TODO: Adjust card heights (103)
         child: Column(
-          // TODO: Center items on the card (103)
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
@@ -324,20 +403,22 @@ class _buildScaffoldState extends State<buildScaffold> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
                 child: Column(
-                  // TODO: Align labels to the bottom and center (103)
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // TODO: Change innermost Column (103)
                   children: <Widget>[
-                    // TODO: Handle overflowing labels (103)
+                    StarWidget(reputation_count: product.requtation),
                     Text(
                       product.name,
-                      style: theme.textTheme.headline6,
+                      style: TextStyle(fontSize: 15),
                       maxLines: 1,
                     ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.subtitle2,
+                    const SizedBox(height: 5.0),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on_sharp, color: Colors.lightBlue,),
+                          Expanded(child: Text(product.location, style: TextStyle(fontSize: 10),),),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -347,5 +428,58 @@ class _buildScaffoldState extends State<buildScaffold> {
         ),
       );
     }).toList();
+  }
+}
+
+class StarWidget extends StatelessWidget {
+  const StarWidget({
+    Key? key, required this.reputation_count,
+  }) : super(key: key);
+
+  final int reputation_count;
+
+  @override
+  Widget build(BuildContext context) {
+    if(reputation_count==2) {
+      return Row(
+        children: [
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+        ],
+      );
+    }
+    else if(reputation_count==3) {
+      return Row(
+        children: [
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+        ],
+      );
+    }
+    else if(reputation_count==4) {
+      return Row(
+        children: [
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+        ],
+      );
+    }
+    else if(reputation_count==5) {
+      return Row(
+        children: [
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          Icon(Icons.star, size: 18, color: Colors.yellow,),
+          //무식하면 이렇게 고생합니다.. 허허허
+        ],
+      );
+    }
+    else
+      return Icon(Icons.star, size: 18, color: Colors.yellow,);
   }
 }
